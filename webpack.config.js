@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.ts'),
+  entry: './src/index.ts',
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
@@ -17,7 +17,12 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-      }
+      },
+      {
+        test: /\.(glsl|vs|fs)$/,
+        use: 'ts-shader-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
