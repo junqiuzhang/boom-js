@@ -2,14 +2,15 @@
   "name": "boom-js",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "webpack-dev-server --env=development",
+    "build": "webpack --env=production"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.2",
     "html-webpack-plugin": "^4.5.0",
     "ts-loader": "^8.0.11",
     "ts-shader-loader": "^1.0.6",

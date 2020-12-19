@@ -1,34 +1,39 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = {
-  entry: './src/index.ts',
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  devServer: {
-    host: '0.0.0.0',
-    port: 9000,
-  },
-  mode: 'production',
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(glsl|vs|fs)$/,
-        use: 'ts-shader-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin(),
-  ],
-  resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
-  },
-};
+module.exports = (env) => {
+  const isProduction = env === 'production';
+  console.log('process.env.NODE_ENV', env);
+  const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const entry = isProduction ? './src/index.ts' : './example/index.ts';
+  const mode = isProduction ? 'production' : 'development';
+  const plugins = isProduction ? [] : [new HtmlWebpackPlugin()];
+  return {
+    entry,
+    output: {
+      filename: 'index.js',
+      path: path.resolve(__dirname, 'lib'),
+    },
+    devServer: {
+      host: '0.0.0.0',
+      port: 9000,
+    },
+    mode,
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(glsl|vs|fs)$/,
+          use: 'ts-shader-loader',
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    plugins,
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ],
+    },
+  };
+}

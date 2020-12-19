@@ -1,7 +1,8 @@
-export function initCanvas(width?: number, height?: number) {
+export function initCanvas() {
   const canvas: HTMLCanvasElement = document.createElement('canvas');
-  canvas.width = width || 1000;
-  canvas.height = height || 1000;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.setAttribute('style', 'position: absolute; top: 0; left: 0;');
   document.body.appendChild(canvas);
   return canvas;
 }
@@ -60,12 +61,12 @@ export function initWebglProgram({
 const push = (arr: number[], x: number) => {
   arr[arr.length] = x;
 };
-// 生成将图像等分为 n x n 矩形的数据
-export const initParticlesData = (n: number) => {
+// 生成将图像等分为 m x n 矩形的数据
+export const initParticlesData = (m: number, n: number) => {
   const positions: number[] = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      const [x0, x1] = [i / n, (i + 1) / n]; // 每个粒子的 x 轴左右坐标
+      const [x0, x1] = [i / m, (i + 1) / m]; // 每个粒子的 x 轴左右坐标
       const [y0, y1] = [j / n, (j + 1) / n]; // 每个粒子的 y 轴上下坐标
 
       push(positions, x0);

@@ -2,27 +2,32 @@ import vsSource from './shader/shader-vs.glsl';
 import fsSource from './shader/shader-fs.glsl';
 import { initCanvas, initWebglProgram, initParticlesData } from './utils/index';
 import { mat4, mat2 } from 'gl-matrix';
-import 'dom-to-image';
+import domtoimage from 'dom-to-image';
+
 class BoomJS {
   constructor(node?: HTMLElement) {
     this.node = node;
   }
   node: HTMLElement;
   boom = (node?: HTMLElement) => {
+    const self = this;
     this.node = node;
-    window.domtoimage.toPng(this.node).then(function (dataUrl: string) {
+    domtoimage.toPng(this.node).then((dataUrl: string) => {
+      this.node.style.opacity = '0';
+      const { left, top } = this.node.getBoundingClientRect();
+      
       const canvas = initCanvas();
       const webgl = canvas.getContext('webgl');
       const webglProgram = initWebglProgram({ webgl, vsSource, fsSource });
       webgl.viewport(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-      const positionArray = initParticlesData(300);
+      const positionArray = initParticlesData(20, 2);
       const triangleBuffer = webgl.createBuffer();
       webgl.bindBuffer(webgl.ARRAY_BUFFER, triangleBuffer);
       webgl.bufferData(
         webgl.ARRAY_BUFFER,
         new Float32Array(positionArray),
-        webgl.STATIC_DRAW
+        webgl.STATIC_DRAW 
       );
 
       const image = new Image();
@@ -69,14 +74,11 @@ class BoomJS {
           webglProgram,
           'u_trans_pos_matrix'
         );
-        mat4.ortho(
-          transPosMat,
-          0,
-          (1 / image.width) * canvas.clientWidth,
-          (1 / image.height) * canvas.clientWidth,
-          0,
-          -1,
-          1
+        mat4.set(transPosMat,
+          2 * image.width / canvas.width, 0, 0, -1 + left * 2 / canvas.width,
+          0, -2 * image.height / canvas.height, 0, 1 - top * 2 / canvas.height,
+          0, 0, 1, 0,
+          0, 0, 0, 0
         );
         webgl.uniformMatrix4fv(u_trans_pos_matrix, false, transPosMat);
 
@@ -93,14 +95,7 @@ class BoomJS {
 
         const a_center = webgl.getAttribLocation(webglProgram, 'a_center');
         webgl.enableVertexAttribArray(a_center);
-        webgl.vertexAttribPointer(
-          a_center,
-          2,
-          webgl.FLOAT,
-          false,
-          4 * 4,
-          4 * 2
-        );
+        webgl.vertexAttribPointer(a_center, 2, webgl.FLOAT, false, 4 * 4, 4 * 2);
 
         const u_time = webgl.getUniformLocation(webglProgram, 'u_time');
         let time = 10;
@@ -108,9 +103,11 @@ class BoomJS {
           time -= 0.1;
           if (time < Number.EPSILON) {
             time = 0;
+            self.node.style.opacity = '1';
+            // document.body.removeChild(canvas);
           }
           webgl.uniform1f(u_time, time);
-          webgl.clearColor(0, 0, 0, 1);
+          webgl.clearColor(0, 0, 0, 0);
           webgl.clear(webgl.COLOR_BUFFER_BIT);
           webgl.drawArrays(webgl.TRIANGLES, 0, positionArray.length / 4);
           requestAnimationFrame(render);
@@ -121,8 +118,3 @@ class BoomJS {
   };
 }
 export default BoomJS;
-declare global {
-  interface Window {
-    domtoimage: any;
-  }
-}
