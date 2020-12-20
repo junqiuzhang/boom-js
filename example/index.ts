@@ -5,7 +5,6 @@ function example() {
   `;
   const boomjs = new BoomJS();
   const ele: HTMLElement = document.querySelector('#su');
-  console.log('ele', ele);
   boomjs.boom(ele);
 }
 example();

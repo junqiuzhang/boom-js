@@ -75,8 +75,8 @@ class BoomJS {
           'u_trans_pos_matrix'
         );
         mat4.set(transPosMat,
-          2 * image.width / canvas.width, 0, 0, -1 + left * 2 / canvas.width,
-          0, -2 * image.height / canvas.height, 0, 1 - top * 2 / canvas.height,
+          image.width * (2 / canvas.width), 0, 0, left * 2 / canvas.width,
+          0, -image.height * (2 / canvas.height), 0, top * 2 / canvas.height,
           0, 0, 1, 0,
           0, 0, 0, 0
         );
@@ -97,14 +97,17 @@ class BoomJS {
         webgl.enableVertexAttribArray(a_center);
         webgl.vertexAttribPointer(a_center, 2, webgl.FLOAT, false, 4 * 4, 4 * 2);
 
-        const u_time = webgl.getUniformLocation(webglProgram, 'u_time');
+        let u_time = webgl.getUniformLocation(webglProgram, 'u_time');
         let time = 10;
+        function stopRender() {
+          time = 0;
+          self.node.style.opacity = '1';
+          // document.body.removeChild(canvas);
+        }
         function render() {
           time -= 0.1;
           if (time < Number.EPSILON) {
-            time = 0;
-            self.node.style.opacity = '1';
-            // document.body.removeChild(canvas);
+            stopRender();
           }
           webgl.uniform1f(u_time, time);
           webgl.clearColor(0, 0, 0, 0);
