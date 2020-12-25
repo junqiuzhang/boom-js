@@ -1,8 +1,8 @@
+import domtoimage from 'dom-to-image';
+import { mat4, mat2 } from 'gl-matrix';
 import vsSource from './shader/shader-vs.glsl';
 import fsSource from './shader/shader-fs.glsl';
 import { initCanvas, initWebglProgram, initParticlesData } from './utils/index';
-import { mat4, mat2 } from 'gl-matrix';
-import domtoimage from 'dom-to-image';
 
 class BoomJS {
   constructor(node?: HTMLElement) {
