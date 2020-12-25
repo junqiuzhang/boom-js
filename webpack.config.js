@@ -1,7 +1,6 @@
 const path = require('path');
 module.exports = (env) => {
   const isProduction = env === 'production';
-  console.log('process.env.NODE_ENV', env);
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   const entry = isProduction ? './src/index.ts' : './example/index.ts';
   const mode = isProduction ? 'production' : 'development';

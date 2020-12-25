@@ -1,9 +1,13 @@
-export function initCanvas() {
+export function insertCanvas() {
   const canvas: HTMLCanvasElement = document.createElement('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.setAttribute('style', 'position: absolute; top: 0; left: 0;');
   document.body.appendChild(canvas);
+  return canvas;
+}
+export function removeCanvas(canvas: HTMLCanvasElement) {
+  document.body.removeChild(canvas);
   return canvas;
 }
 export function initWebglProgram({
@@ -58,9 +62,6 @@ export function initWebglProgram({
   webgl.useProgram(programObject);
   return programObject;
 }
-const push = (arr: number[], x: number) => {
-  arr[arr.length] = x;
-};
 // 生成将图像等分为 m x n 矩形的数据
 export const initParticlesData = (m: number, n: number) => {
   const positions: number[] = [];
@@ -69,35 +70,35 @@ export const initParticlesData = (m: number, n: number) => {
       const [x0, x1] = [i / m, (i + 1) / m]; // 每个粒子的 x 轴左右坐标
       const [y0, y1] = [j / n, (j + 1) / n]; // 每个粒子的 y 轴上下坐标
 
-      push(positions, x0);
-      push(positions, y0);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x0);
+      positions.push(y0);
+      positions.push(x0);
+      positions.push(y0);
 
-      push(positions, x1);
-      push(positions, y0);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x1);
+      positions.push(y0);
+      positions.push(x0);
+      positions.push(y0);
 
-      push(positions, x1);
-      push(positions, y1);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x1);
+      positions.push(y1);
+      positions.push(x0);
+      positions.push(y0);
 
-      push(positions, x0);
-      push(positions, y0);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x0);
+      positions.push(y0);
+      positions.push(x0);
+      positions.push(y0);
 
-      push(positions, x0);
-      push(positions, y1);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x0);
+      positions.push(y1);
+      positions.push(x0);
+      positions.push(y0);
 
-      push(positions, x1);
-      push(positions, y1);
-      push(positions, x0);
-      push(positions, y0);
+      positions.push(x1);
+      positions.push(y1);
+      positions.push(x0);
+      positions.push(y0);
     }
   }
   return positions;
