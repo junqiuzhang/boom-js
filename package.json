@@ -4,6 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
+  "types": "lib/index.d.js",
   "scripts": {
     "start": "webpack-dev-server --env=development",
     "build:dist": "webpack --env=production",

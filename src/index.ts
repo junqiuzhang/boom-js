@@ -14,7 +14,7 @@ interface IConfig {
   speed?: number; // 爆炸速度
   duration?: number; // 爆炸时长
 }
-function boomJS(node: Element, config?: IConfig) {
+function boomJS(node: Element, config?: IConfig): Promise<string> {
   return new Promise((resolve, reject) => {
     // 必需的变量
     const { width, height, left, top } = (
@@ -26,7 +26,7 @@ function boomJS(node: Element, config?: IConfig) {
     const canvas = insertCanvas();
     const webgl = canvas.getContext('webgl');
     if (!webgl) {
-      console.log('Error: webglContext error!');
+      reject('Error: webglContext error!');
       return;
     }
     const webglProgram = initWebglProgram({
@@ -35,7 +35,7 @@ function boomJS(node: Element, config?: IConfig) {
       fsSource
     });
     if (!webglProgram) {
-      console.log('Error: webglProgram error!');
+      reject('Error: webglProgram error!');
       return;
     }
     try {
@@ -150,7 +150,7 @@ function boomJS(node: Element, config?: IConfig) {
           // 渲染循环
           function render() {
             if (!webgl) {
-              console.log('Error: webglContext error!');
+              reject('Error: webglContext error!');
               return;
             }
             time += speed;
