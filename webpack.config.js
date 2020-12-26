@@ -6,13 +6,13 @@ module.exports = env => {
   const isProduction = env === 'production';
   const entry = isProduction ? './src/index.ts' : './example/index.ts';
   const outputDir = isProduction ? 'dist' : 'lib';
-  const outputFile = isProduction ? 'index.min.js' : 'index.js';
+  const outputFile = isProduction ? 'boom.min.js' : 'index.js';
   const libraryTarget = isProduction ? 'var' : 'umd';
   const mode = isProduction ? 'production' : 'development';
   const plugins = isProduction
     ? [
         new webpack.SourceMapDevToolPlugin({
-          filename: 'index.min.js.map'
+          filename: 'boom.min.js.map'
         })
       ]
     : [new HtmlWebpackPlugin()];
