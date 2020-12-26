@@ -18,7 +18,7 @@ npm i boom-js
 ```
 代码：
 ```
-import boomJS from '@boom/boom-js';
+import boomJS from 'webgl-boom-js';
 document.body.addEventListener('click', (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});

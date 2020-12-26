@@ -1,5 +1,5 @@
 {
-  "name": "@boom/boom-js",
+  "name": "webgl-boom-js",
   "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
