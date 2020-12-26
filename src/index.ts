@@ -25,11 +25,19 @@ function boomJS(node: Element, config?: IConfig) {
     // 必需的对象
     const canvas = insertCanvas();
     const webgl = canvas.getContext('webgl');
+    if (!webgl) {
+      console.log('Error: webglContext error!');
+      return;
+    }
     const webglProgram = initWebglProgram({
       webgl,
       vsSource,
       fsSource
     });
+    if (!webglProgram) {
+      console.log('Error: webglProgram error!');
+      return;
+    }
     try {
       // dom转image
       domtoimage.toPng(node).then((dataUrl: string) => {
@@ -141,6 +149,10 @@ function boomJS(node: Element, config?: IConfig) {
           }
           // 渲染循环
           function render() {
+            if (!webgl) {
+              console.log('Error: webglContext error!');
+              return;
+            }
             time += speed;
             if (time > maxTime) {
               stopRender();

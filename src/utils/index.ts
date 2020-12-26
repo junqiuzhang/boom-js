@@ -22,6 +22,14 @@ export function initWebglProgram({
   // 创建shader
   const vertexShaderObject = webgl.createShader(webgl.VERTEX_SHADER);
   const fragmentShaderObject = webgl.createShader(webgl.FRAGMENT_SHADER);
+  if (!vertexShaderObject) {
+    console.log('Error: vertexShaderObject create error!');
+    return;
+  }
+  if (!fragmentShaderObject) {
+    console.log('Error: fragmentShaderObject create error!');
+    return;
+  }
   // 绑定shader
   webgl.shaderSource(vertexShaderObject, vsSource);
   webgl.shaderSource(fragmentShaderObject, fsSource);
@@ -45,6 +53,10 @@ export function initWebglProgram({
   }
   // 创建program
   const programObject = webgl.createProgram();
+  if (!programObject) {
+    console.log('Error: programObject create error!');
+    return;
+  }
   // 绑定program
   webgl.attachShader(programObject, vertexShaderObject);
   webgl.attachShader(programObject, fragmentShaderObject);
