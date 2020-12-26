@@ -1,65 +1,65 @@
 # boomJS
 
-boomJS 是一个用于实现例子爆炸效果的库。
+boomJS is a library for implementing the explosion effect of examples.
 
-boomJS 可以在<b>任意 DOM 节点</b>上实现例子爆炸效果，可以通过简单的 API 实现炫酷的效果。
+boomJS can achieve example explosion effects on <b>any DOM node</b>, and can achieve cool effects through simple APIs.
 
-## 特点
+## Features
 
-- 基于 webGL 实现，性能好，可实现大规模粒子爆炸效果
-- 简单，调用 boomJS 函数即可
-- 轻量，体积仅 14KB
-- 可配置，可配置粒子数，爆炸速度，爆炸时长等
-- 基于 Promise，接口友好
+-Based on webGL implementation, good performance, large-scale particle explosion effect can be achieved
+-Simple, just call boomJS function
+-Lightweight, only 14KB in size
+-Configurable, configurable particle number, explosion speed, explosion duration, etc.
+-Based on Promise, friendly interface
 
-## 配置
+## Configuration
 
-| 参数名   | 类型   | 默认值 | 说明                                     |
-| -------- | ------ | ------ | ---------------------------------------- |
-| m        | number | width  | x 轴粒子拆分个数，默认每像素拆分一个粒子 |
-| n        | number | height | y 轴粒子拆分个数，默认每像素拆分一个粒子 |
-| speed    | number | 0.1    | 粒子运动速度                             |
-| duration | number | 1000   | 粒子效果持续时间，单位毫秒数             |
+| Parameter name | Type   | Default value | Description                                                                             |
+| -------------- | ------ | ------------- | --------------------------------------------------------------------------------------- |
+| m              | number | width         | The number of x-axis particles to split, one particle per pixel is split by default     |
+| n              | number | height        | The number of y-axis particles to split, the default is to split one particle per pixel |
+| speed          | number | 0.1           | particle speed                                                                          |
+| duration       | number | 1000          | Particle effect duration, in milliseconds                                               |
 
 ```
 declare function boomJS(node: Element, config?: IConfig): Promise<unknown>;
 interface IConfig {
-  m?: number; // 爆炸的x轴粒子数
-  n?: number; // 爆炸的x轴粒子数
-  speed?: number; // 爆炸速度
-  duration?: number; // 爆炸时长
+  m?: number; // The number of particles on the x axis of the explosion
+  n?: number; // The number of particles on the x axis of the explosion
+  speed?: number; // Explosion speed
+  duration?: number; // Duration of explosion
 }
 ```
 
-## 使用
+## Use
 
-### 项目中使用
+### Used in the project
 
-命令行：
+Command Line:
 
 ```
 npm i boom-js
 ```
 
-代码：
+Code:
 
 ```
-import boomJS from 'webgl-boom-js';
+import boomJS from'webgl-boom-js';
 document.body.addEventListener('click', (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});
 });
 ```
 
-### 页面中使用
+### Use in the page
 
-引入：
+Introduce:
 
 ```
 <script src="./dist/boom.min.js" defer=""></script>
 ```
 
-代码：
+Code:
 
 ```
 document.body.addEventListener('click', (e) => {
