@@ -30,3 +30,5 @@ examples
 .editorconfig
 
 src
+example
+dist

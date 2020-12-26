@@ -1,15 +1,23 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 module.exports = (env) => {
   const isProduction = env === 'production';
-  const HtmlWebpackPlugin = require('html-webpack-plugin');
-  const entry = isProduction ? './src/index.ts' : './example/index.ts';
+  const isDevelopment = env === 'development';
+  const entry = isDevelopment ? './example/index.ts' : './src/index.ts';
+  const outputDir = isProduction ? 'dist' : 'lib';
+  const outputFile = isProduction ? 'index.min.js' : 'index.js';
+  const libraryTarget = isProduction ? 'var' : 'umd';
   const mode = isProduction ? 'production' : 'development';
-  const plugins = isProduction ? [] : [new HtmlWebpackPlugin()];
+  const plugins = isDevelopment ? [new HtmlWebpackPlugin()] : []; //isProduction ? [new UglifyjsWebpackPlugin()] :
   return {
     entry,
     output: {
-      filename: 'index.js',
-      path: path.resolve(__dirname, 'lib'),
+      filename: outputFile,
+      path: path.resolve(__dirname, outputDir),
+      library: 'boomJS',
+      libraryExport: 'default',
+      libraryTarget,
     },
     devServer: {
       host: '0.0.0.0',
