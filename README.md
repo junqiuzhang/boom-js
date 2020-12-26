@@ -6,11 +6,11 @@ boomJS can achieve example explosion effects on <b>any DOM node</b>, and can ach
 
 ## Features
 
--Based on webGL implementation, good performance, large-scale particle explosion effect can be achieved
--Simple, just call boomJS function
--Lightweight, only 14KB in size
--Configurable, configurable particle number, explosion speed, explosion duration, etc.
--Based on Promise, friendly interface
+- Based on webGL implementation, good performance, large-scale particle explosion effect can be achieved
+- Simple, just call boomJS function
+- Lightweight, only 14KB in size
+- Configurable, configurable particle number, explosion speed, explosion duration, etc.
+- Based on Promise, friendly interface
 
 ## Configuration
 

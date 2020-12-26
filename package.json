@@ -1,6 +1,6 @@
 {
   "name": "webgl-boom-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
