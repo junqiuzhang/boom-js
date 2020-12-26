@@ -1,4 +1,4 @@
-precision mediump float;
+export default `precision mediump float;
 attribute vec2 a_point;
 attribute vec2 a_center;
 uniform mat4 u_trans_pos_matrix;
@@ -12,4 +12,4 @@ void main() {
   vec2 v_direction = vec2(random(a_center - vec2(1, 1)) - 0.5, random(a_center + vec2(1, 1)) - 0.5);
   vec2 v_position = a_point + v_direction * u_time;
   gl_Position = u_trans_pos_matrix * vec4(v_position.x, v_position.y, 0.0, 1.0);
-}
+}`;

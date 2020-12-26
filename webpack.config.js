@@ -1,15 +1,21 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
-module.exports = (env) => {
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+module.exports = env => {
   const isProduction = env === 'production';
-  const isDevelopment = env === 'development';
-  const entry = isDevelopment ? './example/index.ts' : './src/index.ts';
+  const entry = isProduction ? './src/index.ts' : './example/index.ts';
   const outputDir = isProduction ? 'dist' : 'lib';
   const outputFile = isProduction ? 'index.min.js' : 'index.js';
   const libraryTarget = isProduction ? 'var' : 'umd';
   const mode = isProduction ? 'production' : 'development';
-  const plugins = isDevelopment ? [new HtmlWebpackPlugin()] : []; //isProduction ? [new UglifyjsWebpackPlugin()] :
+  const plugins = isProduction
+    ? [
+        new webpack.SourceMapDevToolPlugin({
+          filename: 'index.min.js.map'
+        })
+      ]
+    : [new HtmlWebpackPlugin()];
   return {
     entry,
     output: {
@@ -17,11 +23,11 @@ module.exports = (env) => {
       path: path.resolve(__dirname, outputDir),
       library: 'boomJS',
       libraryExport: 'default',
-      libraryTarget,
+      libraryTarget
     },
     devServer: {
       host: '0.0.0.0',
-      port: 9000,
+      port: 9000
     },
     mode,
     module: {
@@ -29,18 +35,17 @@ module.exports = (env) => {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.(glsl|vs|fs)$/,
-          use: 'ts-shader-loader',
-          exclude: /node_modules/,
-        },
-      ],
+          exclude: /node_modules/
+        }
+      ]
     },
     plugins,
-    resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ],
+    optimization: {
+      minimize: isProduction,
+      minimizer: isProduction ? [new TerserWebpackPlugin()] : []
     },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js']
+    }
   };
-}
+};

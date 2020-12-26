@@ -1,7 +1,7 @@
 import domtoimage from 'dom-to-image';
 import { mat4, mat2 } from 'gl-matrix';
-import vsSource from './shader/shader-vs.glsl';
-import fsSource from './shader/shader-fs.glsl';
+import vsSource from './shader/vertex';
+import fsSource from './shader/fragment';
 import {
   insertCanvas,
   removeCanvas,
