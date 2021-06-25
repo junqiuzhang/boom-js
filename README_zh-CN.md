@@ -21,11 +21,11 @@ boomJS 可以在<b>任意 DOM 节点</b>上实现例子爆炸效果，可以通�
 | speed    | number | 0.1    | 粒子运动速度                             |
 | duration | number | 1000   | 粒子效果持续时间，单位毫秒数             |
 
-```
+```ts
 declare function boomJS(node: Element, config?: IConfig): Promise<unknown>;
 interface IConfig {
   m?: number; // 爆炸的x轴粒子数
-  n?: number; // 爆炸的x轴粒子数
+  n?: number; // 爆炸的y轴粒子数
   speed?: number; // 爆炸速度
   duration?: number; // 爆炸时长
 }
@@ -37,15 +37,15 @@ interface IConfig {
 
 命令行：
 
-```
-npm i boom-js
+```sh
+npm i webgl-boom-js
 ```
 
 代码：
 
-```
-import boomJS from 'webgl-boom-js';
-document.body.addEventListener('click', (e) => {
+```ts
+import boomJS from "webgl-boom-js";
+document.body.addEventListener("click", (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});
 });
@@ -55,15 +55,19 @@ document.body.addEventListener('click', (e) => {
 
 引入：
 
-```
+```html
 <script src="./dist/boom.min.js" defer=""></script>
 ```
 
 代码：
 
-```
-document.body.addEventListener('click', (e) => {
+```ts
+document.body.addEventListener("click", (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});
 });
 ```
+
+## 开源协议
+
+ISC

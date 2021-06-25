@@ -1,6 +1,6 @@
 {
   "name": "webgl-boom-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -12,6 +12,10 @@
   },
   "author": "junqiuzhang",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/junqiuzhang/boom-js/issues"
+  },
+  "homepage": "https://github.com/junqiuzhang/boom-js#readme",
   "keywords": ["webgl", "webGL", "boomjs", "boom-js"],
   "devDependencies": {
     "@types/dom-to-image": "^2.6.2",

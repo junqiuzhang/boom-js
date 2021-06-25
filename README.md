@@ -1,5 +1,7 @@
 # boomJS
 
+[中文文档](https://github.com/junqiuzhang/boom-js/blob/master/README_zh-CN.md)
+
 boomJS is a library for implementing the explosion effect of examples.
 
 boomJS can achieve example explosion effects on <b>any DOM node</b>, and can achieve cool effects through simple APIs.
@@ -21,11 +23,11 @@ boomJS can achieve example explosion effects on <b>any DOM node</b>, and can ach
 | speed          | number | 0.1           | particle speed                                                                          |
 | duration       | number | 1000          | Particle effect duration, in milliseconds                                               |
 
-```
+```ts
 declare function boomJS(node: Element, config?: IConfig): Promise<unknown>;
 interface IConfig {
   m?: number; // The number of particles on the x axis of the explosion
-  n?: number; // The number of particles on the x axis of the explosion
+  n?: number; // The number of particles on the y axis of the explosion
   speed?: number; // Explosion speed
   duration?: number; // Duration of explosion
 }
@@ -37,15 +39,15 @@ interface IConfig {
 
 Command Line:
 
-```
-npm i boom-js
+```sh
+npm i webgl-boom-js
 ```
 
 Code:
 
-```
-import boomJS from'webgl-boom-js';
-document.body.addEventListener('click', (e) => {
+```ts
+import boomJS from "webgl-boom-js";
+document.body.addEventListener("click", (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});
 });
@@ -55,15 +57,19 @@ document.body.addEventListener('click', (e) => {
 
 Introduce:
 
-```
+```html
 <script src="./dist/boom.min.js" defer=""></script>
 ```
 
 Code:
 
-```
-document.body.addEventListener('click', (e) => {
+```ts
+document.body.addEventListener("click", (e) => {
   const ele = e.target;
   boomJS(ele).then(() => {});
 });
 ```
+
+## License
+
+ISC

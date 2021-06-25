@@ -1,6 +1,8 @@
 
 # base
 node_modules
+example
+dist
 package-lock.json
 .prettierrc
 
