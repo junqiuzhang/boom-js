@@ -16,7 +16,12 @@
     "url": "https://github.com/junqiuzhang/boom-js/issues"
   },
   "homepage": "https://github.com/junqiuzhang/boom-js#readme",
-  "keywords": ["webgl", "webGL", "boomjs", "boom-js"],
+  "keywords": [
+    "webgl",
+    "webGL",
+    "boomjs",
+    "boom-js"
+  ],
   "devDependencies": {
     "@types/dom-to-image": "^2.6.2",
     "html-webpack-plugin": "^4.5.0",
