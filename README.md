@@ -1,10 +1,10 @@
 # boomJS
 
-[中文文档](https://github.com/junqiuzhang/boom-js/blob/master/README_zh-CN.md)
-
 boomJS is a library for implementing the explosion effect of particle.
 
 boomJS can achieve particle explosion effects on <b>any DOM node</b>, and can achieve cool effects through simple APIs.
+
+[中文文档](https://github.com/junqiuzhang/boom-js/blob/master/README_zh-CN.md)
 
 ## Features
 
