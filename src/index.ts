@@ -1,13 +1,14 @@
-import domtoimage from 'dom-to-image';
-import { mat4, mat2 } from 'gl-matrix';
-import vsSource from './shader/vertex';
-import fsSource from './shader/fragment';
+//@ts-ignore
+import { mat4, mat2 } from "gl-matrix";
+import domtoimage from "dom-to-image";
+import vsSource from "./shader/vertex";
+import fsSource from "./shader/fragment";
 import {
   insertCanvas,
   removeCanvas,
   initWebglProgram,
-  initParticlesData
-} from './utils/index';
+  initParticlesData,
+} from "./utils/index";
 interface IConfig {
   m?: number; // 爆炸的x轴粒子数
   n?: number; // 爆炸的x轴粒子数
@@ -20,27 +21,32 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
     const { width, height, left, top } = (
       node || document.body
     ).getBoundingClientRect();
-    const { m = width, n = height, speed = 0.1, duration = 1000 } =
-      config || {};
+    const {
+      m = width,
+      n = height,
+      speed = 0.1,
+      duration = 1000,
+    } = config || {};
     // 必需的对象
     const canvas = insertCanvas();
-    const webgl = canvas.getContext('webgl');
+    const webgl = canvas.getContext("webgl");
     if (!webgl) {
-      reject('Error: webglContext error!');
+      reject("Error: webglContext error!");
       return;
     }
     const webglProgram = initWebglProgram({
       webgl,
       vsSource,
-      fsSource
+      fsSource,
     });
     if (!webglProgram) {
-      reject('Error: webglProgram error!');
+      reject("Error: webglProgram error!");
       return;
     }
-    try {
-      // dom转image
-      domtoimage.toPng(node).then((dataUrl: string) => {
+    // dom转image
+    domtoimage
+      .toPng(node)
+      .then((dataUrl: string) => {
         const image = new Image();
         image.src = dataUrl;
         image.onload = () => {
@@ -89,7 +95,7 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
             webgl.CLAMP_TO_EDGE
           );
 
-          const u_image = webgl.getUniformLocation(webglProgram, 'u_image');
+          const u_image = webgl.getUniformLocation(webglProgram, "u_image");
           webgl.activeTexture(webgl.TEXTURE0);
           webgl.bindTexture(webgl.TEXTURE_2D, texture);
           webgl.uniform1i(u_image, 0);
@@ -97,7 +103,7 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
           const transPosMat = mat4.create();
           const u_trans_pos_matrix = webgl.getUniformLocation(
             webglProgram,
-            'u_trans_pos_matrix'
+            "u_trans_pos_matrix"
           );
           mat4.ortho(
             transPosMat,
@@ -113,15 +119,15 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
           const transTexMat = mat2.create();
           const u_trans_tex_matrix = webgl.getUniformLocation(
             webglProgram,
-            'u_trans_tex_matrix'
+            "u_trans_tex_matrix"
           );
           webgl.uniformMatrix2fv(u_trans_tex_matrix, false, transTexMat);
           // 顶点数据
-          const a_point = webgl.getAttribLocation(webglProgram, 'a_point');
+          const a_point = webgl.getAttribLocation(webglProgram, "a_point");
           webgl.enableVertexAttribArray(a_point);
           webgl.vertexAttribPointer(a_point, 2, webgl.FLOAT, false, 4 * 4, 0);
           // 中心点数据
-          const a_center = webgl.getAttribLocation(webglProgram, 'a_center');
+          const a_center = webgl.getAttribLocation(webglProgram, "a_center");
           webgl.enableVertexAttribArray(a_center);
           webgl.vertexAttribPointer(
             a_center,
@@ -133,24 +139,24 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
           );
           // 时间
           let time = 0;
-          let u_time = webgl.getUniformLocation(webglProgram, 'u_time');
+          let u_time = webgl.getUniformLocation(webglProgram, "u_time");
           // 最大时间
           const maxTime = (duration * speed) / 16.67;
           // 停止渲染
           function stopRender() {
-            canvas.style.display = 'none';
+            canvas.style.display = "none";
             removeCanvas(canvas);
-            resolve('');
+            resolve("");
           }
           // 开始渲染
           function startRender() {
-            canvas.style.display = 'block';
+            canvas.style.display = "block";
             render();
           }
           // 渲染循环
           function render() {
             if (!webgl) {
-              reject('Error: webglContext error!');
+              reject("Error: webglContext error!");
               return;
             }
             time += speed;
@@ -164,12 +170,12 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
           }
           startRender();
         };
+      })
+      .catch((error) => {
+        // 错误处理，出错时重置canvas和webglProgram
+        removeCanvas(canvas);
+        reject(error);
       });
-    } catch (error) {
-      // 错误处理，出错时重置canvas和webglProgram
-      removeCanvas(canvas);
-      reject(error);
-    }
   });
 }
 export default boomJS;
