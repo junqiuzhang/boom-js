@@ -70,4 +70,4 @@ document.body.addEventListener("click", (e) => {
 
 ## 开源协议
 
-ISC
+MIT

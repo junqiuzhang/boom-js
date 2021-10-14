@@ -72,4 +72,4 @@ document.body.addEventListener("click", (e) => {
 
 ## License
 
-ISC
+MIT
