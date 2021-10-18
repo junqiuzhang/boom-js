@@ -14,6 +14,8 @@ interface IConfig {
   n?: number; // 爆炸的x轴粒子数
   speed?: number; // 爆炸速度
   duration?: number; // 爆炸时长
+  onStart?: () => void; // 爆炸开始的回调
+  onEnd?: () => void; // 爆炸结束的回调
 }
 function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -49,6 +51,7 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
         const image = new Image();
         image.src = dataUrl;
         image.onload = () => {
+          if (typeof config?.onStart === "function") config.onStart();
           // webgl基本配置
           webgl.clearColor(0, 0, 0, 0);
           webgl.clear(webgl.COLOR_BUFFER_BIT);
@@ -143,6 +146,7 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
           const maxTime = (duration * speed) / 16.67;
           // 停止渲染
           function stopRender() {
+            if (typeof config?.onEnd === "function") config.onEnd();
             canvas.style.display = "none";
             removeCanvas(canvas);
             resolve("");

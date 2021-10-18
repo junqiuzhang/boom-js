@@ -5,7 +5,10 @@ export function insertCanvas() {
   const canvas: HTMLCanvasElement = document.createElement("canvas");
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  canvas.setAttribute("style", "position: absolute; top: 0; left: 0;");
+  canvas.setAttribute(
+    "style",
+    "position: absolute; top: 0; left: 0; pointer-events: none;"
+  );
   document.body.appendChild(canvas);
   return canvas;
 }
