@@ -1,19 +1,10 @@
 
 # base
-node_modules
-example
-dist
-package-lock.json
 .prettierrc
 
 # tests
 test
 coverage
-
-./recordings
-examples
-.bscpmrc
-.bscpmrc.json
 
 # build tools
 .travis.yml
@@ -31,6 +22,7 @@ examples
 .idea
 .editorconfig
 
-src
+node_modules
 example
 dist
+src
