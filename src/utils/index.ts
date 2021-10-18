@@ -1,8 +1,11 @@
+import html2canvas from "html2canvas";
+import { Options } from "html2canvas/dist/types";
+type IOptions = Partial<Options>;
 export function insertCanvas() {
-  const canvas: HTMLCanvasElement = document.createElement('canvas');
+  const canvas: HTMLCanvasElement = document.createElement("canvas");
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  canvas.setAttribute('style', 'position: absolute; top: 0; left: 0;');
+  canvas.setAttribute("style", "position: absolute; top: 0; left: 0;");
   document.body.appendChild(canvas);
   return canvas;
 }
@@ -13,7 +16,7 @@ export function removeCanvas(canvas: HTMLCanvasElement) {
 export function initWebglProgram({
   webgl,
   vsSource,
-  fsSource
+  fsSource,
 }: {
   webgl: WebGLRenderingContext | WebGL2RenderingContext;
   vsSource: string;
@@ -23,11 +26,11 @@ export function initWebglProgram({
   const vertexShaderObject = webgl.createShader(webgl.VERTEX_SHADER);
   const fragmentShaderObject = webgl.createShader(webgl.FRAGMENT_SHADER);
   if (!vertexShaderObject) {
-    console.log('Error: vertexShaderObject create error!');
+    console.log("Error: vertexShaderObject create error!");
     return;
   }
   if (!fragmentShaderObject) {
-    console.log('Error: fragmentShaderObject create error!');
+    console.log("Error: fragmentShaderObject create error!");
     return;
   }
   // 绑定shader
@@ -39,14 +42,14 @@ export function initWebglProgram({
   // 编译错误处理
   if (!webgl.getShaderParameter(vertexShaderObject, webgl.COMPILE_STATUS)) {
     console.log(
-      'Error: vertexShaderObject compile error!',
+      "Error: vertexShaderObject compile error!",
       webgl.getShaderInfoLog(vertexShaderObject)
     );
     return;
   }
   if (!webgl.getShaderParameter(fragmentShaderObject, webgl.COMPILE_STATUS)) {
     console.log(
-      'Error: fragmentShaderObject compile error!',
+      "Error: fragmentShaderObject compile error!",
       webgl.getShaderInfoLog(fragmentShaderObject)
     );
     return;
@@ -54,7 +57,7 @@ export function initWebglProgram({
   // 创建program
   const programObject = webgl.createProgram();
   if (!programObject) {
-    console.log('Error: programObject create error!');
+    console.log("Error: programObject create error!");
     return;
   }
   // 绑定program
@@ -65,7 +68,7 @@ export function initWebglProgram({
   // 链接错误处理
   if (!webgl.getProgramParameter(programObject, webgl.LINK_STATUS)) {
     console.log(
-      'Error: programObject link error!',
+      "Error: programObject link error!",
       webgl.getProgramInfoLog(programObject)
     );
     return;
@@ -114,4 +117,17 @@ export const initParticlesData = (m: number, n: number) => {
     }
   }
   return positions;
+};
+export const dom2img = async (node: HTMLElement, opt?: IOptions) => {
+  const options: IOptions = {
+    allowTaint: true,
+    useCORS: true,
+    scale: 1,
+    width: node.clientWidth,
+    height: node.clientHeight,
+    ...opt,
+  };
+  const canvas = await html2canvas(node, options);
+  const dataURL = canvas.toDataURL("image/png");
+  return dataURL;
 };

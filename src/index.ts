@@ -1,6 +1,6 @@
 //@ts-ignore
 import { mat4, mat2 } from "gl-matrix";
-import domtoimage from "dom-to-image";
+import { dom2img } from "./utils";
 import vsSource from "./shader/vertex";
 import fsSource from "./shader/fragment";
 import {
@@ -15,7 +15,7 @@ interface IConfig {
   speed?: number; // 爆炸速度
   duration?: number; // 爆炸时长
 }
-function boomJS(node: Element, config?: IConfig): Promise<string> {
+function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
   return new Promise((resolve, reject) => {
     // 必需的变量
     const { width, height, left, top } = (
@@ -44,8 +44,7 @@ function boomJS(node: Element, config?: IConfig): Promise<string> {
       return;
     }
     // dom转image
-    domtoimage
-      .toPng(node)
+    dom2img(node)
       .then((dataUrl: string) => {
         const image = new Image();
         image.src = dataUrl;
