@@ -19,8 +19,9 @@ boomJS 可以在<b>任意 DOM 节点</b>上实现例子爆炸效果，可以通�
 | -------- | ---------- | ------ | ---------------------------------------- |
 | m        | number     | width  | x 轴粒子拆分个数，默认每像素拆分一个粒子 |
 | n        | number     | height | y 轴粒子拆分个数，默认每像素拆分一个粒子 |
-| speed    | number     | 0.1    | 粒子运动速度                             |
-| duration | number     | 1000   | 粒子效果持续时间，单位毫秒数             |
+| a        | number     | 0.001  | 阻力加速度，单位像素 / 帧^2              |
+| speed    | number     | 1      | 初始运动速度，单位像素 / 帧              |
+| duration | number     | 1000   | 运动时间，单位帧数                       |
 | onStart  | () => void | 无     | 粒子效果开始的回调                       |
 | onEnd    | () => void | 无     | 粒子效果结束的回调                       |
 
@@ -28,9 +29,10 @@ boomJS 可以在<b>任意 DOM 节点</b>上实现例子爆炸效果，可以通�
 declare function boomJS(node: Element, config?: IConfig): Promise<unknown>;
 interface IConfig {
   m?: number; // 爆炸的x轴粒子数
-  n?: number; // 爆炸的y轴粒子数
-  speed?: number; // 爆炸速度
-  duration?: number; // 爆炸时长
+  n?: number; // 爆炸的x轴粒子数
+  a?: number; // 阻力加速度(px / frame ^ 2)
+  speed?: number; // 爆炸初始速度(px / frame)
+  duration?: number; // 爆炸时长(frame)
   onStart?: () => void; // 爆炸开始的回调
   onEnd?: () => void; // 爆炸结束的回调
 }
@@ -53,7 +55,8 @@ import boomJS from "webgl-boom-js";
 document.body.addEventListener("click", (e) => {
   const ele = e.target as HTMLElement;
   boomJS(ele, {
-    speed: 0.001,
+    a: 0.001,
+    speed: 1,
     duration: 3000,
     onStart: () => {
       ele.style.opacity = "0";

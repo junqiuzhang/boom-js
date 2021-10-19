@@ -21,8 +21,9 @@ boomJS can achieve particle explosion effects on <b>any DOM node</b>, and can ac
 | -------------- | ---------- | ------------- | --------------------------------------------------------------------------------------- |
 | m              | number     | width         | The number of x-axis particles to split, one particle per pixel is split by default     |
 | n              | number     | height        | The number of y-axis particles to split, the default is to split one particle per pixel |
-| speed          | number     | 0.1           | particle speed                                                                          |
-| duration       | number     | 1000          | Particle effect duration, in milliseconds                                               |
+| a              | number     | 0.001         | Drag acceleration in pixels per frame ^2                                                |
+| speed          | number     | 1             | Initial motion speed in pixels per frame                                                |
+| duration       | number     | 1000          | Motion time, in frames                                                                  |
 | onStart        | () => void | none          | Callback to the beginning of particle effects                                           |
 | onEnd          | () => void | none          | Callback to end of particle effect                                                      |
 
@@ -31,8 +32,9 @@ declare function boomJS(node: Element, config?: IConfig): Promise<unknown>;
 interface IConfig {
   m?: number; // The number of particles on the x axis of the explosion
   n?: number; // The number of particles on the y axis of the explosion
-  speed?: number; // Explosion speed
-  duration?: number; // Duration of explosion
+  a?: number; // Drag acceleration (px / frame ^ 2)
+  speed?: number; // Initial motion speed (px / frame)
+  duration?: number; // Motion time (frame)
   onStart?: () => void; // Callbacks of beginning
   onEnd?: () => void; // Callback of end
 }
@@ -55,7 +57,8 @@ import boomJS from "webgl-boom-js";
 document.body.addEventListener("click", (e) => {
   const ele = e.target as HTMLElement;
   boomJS(ele, {
-    speed: 0.001,
+    a: 0.001,
+    speed: 1,
     duration: 3000,
     onStart: () => {
       ele.style.opacity = "0";

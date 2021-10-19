@@ -9,8 +9,9 @@ function example() {
   document.body.addEventListener("click", (e) => {
     const ele = e.target as HTMLElement;
     boomJS(ele, {
-      speed: 0.001,
-      duration: 3000,
+      a: 0.001,
+      speed: 1,
+      duration: 1000,
       onStart: () => {
         ele.style.opacity = "0";
       },

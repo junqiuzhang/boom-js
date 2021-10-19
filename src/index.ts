@@ -12,8 +12,9 @@ import {
 interface IConfig {
   m?: number; // 爆炸的x轴粒子数
   n?: number; // 爆炸的x轴粒子数
-  speed?: number; // 爆炸速度
-  duration?: number; // 爆炸时长
+  a?: number; // 阻力加速度(px / frame ^ 2)
+  speed?: number; // 爆炸初始速度(px / frame)
+  duration?: number; // 爆炸时长(frame)
   onStart?: () => void; // 爆炸开始的回调
   onEnd?: () => void; // 爆炸结束的回调
 }
@@ -26,7 +27,8 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
     const {
       m = width,
       n = height,
-      speed = 0.1,
+      a = 0.001,
+      speed = 1,
       duration = 1000,
     } = config || {};
     // 必需的对象
@@ -139,11 +141,17 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
             4 * 4,
             4 * 2
           );
+          // 初始速度
+          let u_speed = webgl.getUniformLocation(webglProgram, "u_speed");
+          webgl.uniform1f(u_speed, speed * 1.0);
+          // 加速度
+          let u_a = webgl.getUniformLocation(webglProgram, "u_a");
+          webgl.uniform1f(u_a, a * 1.0);
           // 时间
-          let time = 0;
+          let time = 0.0;
           let u_time = webgl.getUniformLocation(webglProgram, "u_time");
           // 最大时间
-          const maxTime = (duration * speed) / 16.67;
+          const maxTime = Math.min(duration, speed / a);
           // 停止渲染
           function stopRender() {
             if (typeof config?.onEnd === "function") config.onEnd();
@@ -162,7 +170,7 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
               reject("Error: webglContext error!");
               return;
             }
-            time += speed;
+            time++;
             if (time > maxTime) {
               stopRender();
             } else {
