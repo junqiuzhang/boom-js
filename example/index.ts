@@ -11,7 +11,7 @@ function example() {
     boomJS(ele, {
       a: 0.001,
       speed: 1,
-      duration: 1000,
+      duration: 100,
       onStart: () => {
         ele.style.opacity = "0";
       },
