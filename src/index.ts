@@ -119,13 +119,6 @@ function boomJS(node: HTMLElement, config?: IConfig): Promise<string> {
             -1
           );
           webgl.uniformMatrix4fv(u_trans_pos_matrix, false, transPosMat);
-          // 色彩变换矩阵
-          const transTexMat = mat2.create();
-          const u_trans_tex_matrix = webgl.getUniformLocation(
-            webglProgram,
-            "u_trans_tex_matrix"
-          );
-          webgl.uniformMatrix2fv(u_trans_tex_matrix, false, transTexMat);
           // 顶点数据
           const a_point = webgl.getAttribLocation(webglProgram, "a_point");
           webgl.enableVertexAttribArray(a_point);
