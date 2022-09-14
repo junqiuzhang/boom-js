@@ -1,5 +1,5 @@
 //@ts-ignore
-import { mat4, mat2 } from "gl-matrix";
+import { mat4 } from "gl-matrix";
 import { dom2img } from "./utils";
 import vsSource from "./shader/vertex";
 import fsSource from "./shader/fragment";
